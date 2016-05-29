@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html lang="en" ng-app="space" class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Space</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="mecho.css">
+	<script src="lib/mecho.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
+  <script src="app.js"></script>
+  <script src="toolbox/controllers/addStaticCtrl.js"></script>
+
+  <script>
+    function main()
+    {
+      scene = new Mecho();
+      scene.onTime = animate;
+
+      v = [0,0,0];
+
+      button('start','space', start);
+    }
+
+    function start()
+    {
+      scene.target = [0,0,3];
+
+      // избор на случаен вектор-скорост
+      v = [random(-2,2),random(-2,2),random(-1,3)];
+    }
+
+    function animate()
+    {
+      // a.center.x += Mecho.dTime*v.x;
+      // a.center.y += Mecho.dTime*v.y;
+      // a.center.z += Mecho.dTime*v.z;
+    };
+
+  </script>
+</head>
+<body onload="main()">
+  <ul class="menu">
+    <li><a href="#/toolbox/add">view1</a></li>
+  </ul>
+
+  <div ng-view style="position:absolute"></div>
+
+
+
+</body>
+</html>
