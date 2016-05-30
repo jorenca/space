@@ -1,0 +1,22 @@
+<div class="form-group">
+  <label for="x">X</label>
+  <input class="form-control" id="x" type="number" ng-model="newObj.pos.x"></input>
+  <label for="y">Y</label>
+  <input class="form-control" id="y" type="number" ng-model="newObj.pos.y"></input>
+  <label for="z">Z</label>
+  <input class="form-control" id="z" type="number" ng-model="newObj.pos.z"></input>
+
+  <label for="r">Radius</label>
+  <input class="form-control" id="r" type="number" ng-model="newObj.radius"></input>
+  <label for="m">Mass</label>
+  <input class="form-control" id="m" type="number" ng-model="newObj.mass"></input>
+
+  <label for="ix">Initial X</label>
+  <input class="form-control" id="ix" type="number" ng-model="newObj.initial.x"></input>
+  <label for="iy">Initial Y</label>
+  <input class="form-control" id="iy" type="number" ng-model="newObj.initial.y"></input>
+  <label for="iz">Initial Z</label>
+  <input class="form-control" id="iz" type="number" ng-model="newObj.initial.z"></input>
+
+  <button class="btn btn-default form-control" ng-click="launch(newObj)">Launch</button>
+</div>

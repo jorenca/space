@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<!--[if lt IE 7]>      <html lang="en" ng-app="space" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="space" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="space" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html lang="en" ng-app="space" class="no-js"> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
@@ -18,8 +18,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
+
   <script src="app.js"></script>
   <script src="toolbox/controllers/addStaticCtrl.js"></script>
+  <script src="toolbox/controllers/simulationCtrl.js"></script>
+  <script src="toolbox/controllers/launchCtrl.js"></script>
+  <script src="toolbox/resource/bodyFactory.js"></script>
 
   <script>
     var objects = [];
@@ -28,7 +32,7 @@
       scene = new Mecho();
       scene.onTime = animate;
 
-      button('start', 'space', start);
+      //button('start', 'space', start);
     }
 
     function start() {
@@ -36,16 +40,18 @@
     }
 
     function animate() {
-      // a.center.x += Mecho.dTime*v.x;
-      // a.center.y += Mecho.dTime*v.y;
-      // a.center.z += Mecho.dTime*v.z;
       _(objects).filter(function (o) { return o.invalid(); }).each(function (inv) {
         console.log('invalid', inv.pos());
       });
+      movements = [];
       objects = _.reject(objects, function (o) { return o.invalid() });
       _.each(objects, function (object) {
-
-        object.applyMovement(Mecho.dTime, objects);
+        var timePassed = 0.1; //Mecho.dTime;
+        object.prepareMovement(timePassed, objects);
+      });
+      _.each(objects, function (object) {
+        var timePassed = 0.1; //Mecho.dTime;
+        object.applyMovement();
       });
     };
 
@@ -53,7 +59,9 @@
 </head>
 <body onload="init()">
   <ul class="menu">
-    <li><a href="#/toolbox/add">view1</a></li>
+    <li><a href="#/toolbox/add">Add Static</a></li>
+    <li><a href="#/toolbox/simulation">Simulation</a></li>
+    <li><a href="#/toolbox/launch">Launch</a></li>
   </ul>
 
   <div ng-view style="position:absolute"></div>

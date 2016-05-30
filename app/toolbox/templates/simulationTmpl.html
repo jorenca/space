@@ -1,0 +1,6 @@
+SIMULATION
+<div ng-init="eraseStep = 0">
+  <button class="btn btn-default" ng-click="eraseStep = 1" ng-show="eraseStep == 0">Clear space</button>
+  <button class="btn btn-default" ng-click="clearSpace(); eraseStep = 0" ng-show="eraseStep == 1">Are you Sure?</button>
+  <button class="btn btn-default" ng-click="eraseStep = 0" ng-show="eraseStep == 1">Cancel</button>
+<div>
