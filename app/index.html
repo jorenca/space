@@ -17,38 +17,41 @@
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular-route.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.min.js"></script>
   <script src="app.js"></script>
   <script src="toolbox/controllers/addStaticCtrl.js"></script>
 
   <script>
-    function main()
-    {
+    var objects = [];
+    var G = 6.674e-11;
+    function init() {
       scene = new Mecho();
       scene.onTime = animate;
 
-      v = [0,0,0];
-
-      button('start','space', start);
+      button('start', 'space', start);
     }
 
-    function start()
-    {
-      scene.target = [0,0,3];
-
-      // избор на случаен вектор-скорост
-      v = [random(-2,2),random(-2,2),random(-1,3)];
+    function start() {
+      scene.target = [0, 0, 3];
     }
 
-    function animate()
-    {
+    function animate() {
       // a.center.x += Mecho.dTime*v.x;
       // a.center.y += Mecho.dTime*v.y;
       // a.center.z += Mecho.dTime*v.z;
+      _(objects).filter(function (o) { return o.invalid(); }).each(function (inv) {
+        console.log('invalid', inv.pos());
+      });
+      objects = _.reject(objects, function (o) { return o.invalid() });
+      _.each(objects, function (object) {
+
+        object.applyMovement(Mecho.dTime, objects);
+      });
     };
 
   </script>
 </head>
-<body onload="main()">
+<body onload="init()">
   <ul class="menu">
     <li><a href="#/toolbox/add">view1</a></li>
   </ul>
