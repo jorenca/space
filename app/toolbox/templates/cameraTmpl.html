@@ -1,0 +1,16 @@
+CAMERA<br/>
+
+Camera pos: {{cam.pos[0]}}, {{cam.pos[1]}}, {{cam.pos[2]}}<br/>
+Camera target: {{cam.target[0]}}, {{cam.target[1]}}, {{cam.target[2]}}<br/>
+
+<button class="btn btn-default" ng-click="attach(attachId)">Attach to {{attachId}}</button>
+<button class="btn btn-default" ng-click="attachId = attachId + 1">+</button>
+<button class="btn btn-default" ng-click="attachId = attachId - 1">-</button>
+
+<br/>
+
+<button class="btn btn-default" ng-click="resetAttach()">Reset</button>
+<button class="btn btn-default" ng-click="free()">Free</button>
+
+<br/>
+<input type="number" ng-model="scaleFactor"></input>

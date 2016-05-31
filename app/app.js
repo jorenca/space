@@ -17,6 +17,11 @@ angular.module('space.toolbox', ['ngRoute'])
     templateUrl: 'toolbox/templates/launchTmpl.html',
     controller: 'LaunchCtrl'
   });
+
+  $routeProvider.when('/toolbox/cam', {
+    templateUrl: 'toolbox/templates/cameraTmpl.html',
+    controller: 'CameraCtrl'
+  });
 }]);
 
 angular.module('space', [
