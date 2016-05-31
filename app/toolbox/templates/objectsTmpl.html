@@ -1,0 +1,17 @@
+<div>{{objects.length}} objects total</div>
+
+<div ng-repeat="object in objects">
+  Object {{object.id}}:
+  <ul>
+    <li>{{object.mecho.center[0]}}</li>
+    <li>{{object.mecho.center[1]}}</li>
+    <li>{{object.mecho.center[2]}}</li>
+  </ul>
+  <br/>
+  <button class="btn btn-default" ng-click="remove(object.id)">Remove</button>
+  <button class="btn btn-default"
+    ng-init="traceState = object.trace.down"
+    ng-click="traceState = !traceState; trace(object.id, traceState)">
+    Turn Trace {{traceState ? 'OFF' : 'ON'}}
+  </button>
+</div>

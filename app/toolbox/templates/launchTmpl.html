@@ -1,22 +1,39 @@
 <div class="form-group">
-  <label for="x">X</label>
-  <input class="form-control" id="x" type="number" ng-model="newObj.pos.x"></input>
-  <label for="y">Y</label>
-  <input class="form-control" id="y" type="number" ng-model="newObj.pos.y"></input>
-  <label for="z">Z</label>
-  <input class="form-control" id="z" type="number" ng-model="newObj.pos.z"></input>
 
-  <label for="r">Radius</label>
-  <input class="form-control" id="r" type="number" ng-model="newObj.radius"></input>
-  <label for="m">Mass</label>
-  <input class="form-control" id="m" type="number" ng-model="newObj.mass"></input>
+  <div class="input-group">
+    <span class="input-group-addon">X</span>
+    <input class="form-control" type="number" ng-model="newObj.pos.x"></input>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Y</span>
+    <input class="form-control" type="number" ng-model="newObj.pos.y"></input>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Z</span>
+    <input class="form-control" type="number" ng-model="newObj.pos.z"></input>
+  </div>
 
-  <label for="ix">Initial X</label>
-  <input class="form-control" id="ix" type="number" ng-model="newObj.initial.x"></input>
-  <label for="iy">Initial Y</label>
-  <input class="form-control" id="iy" type="number" ng-model="newObj.initial.y"></input>
-  <label for="iz">Initial Z</label>
-  <input class="form-control" id="iz" type="number" ng-model="newObj.initial.z"></input>
+  <div class="input-group">
+    <span class="input-group-addon">Radius</span>
+    <input class="form-control" type="number" ng-model="newObj.radius"></input>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Mass</span>
+    <input class="form-control" type="number" ng-model="newObj.mass"></input>
+  </div>
+
+  <div class="input-group">
+    <span class="input-group-addon">Initial X</span>
+    <input class="form-control" type="number" ng-model="newObj.initial.x"></input>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Initial Y</span>
+    <input class="form-control" type="number" ng-model="newObj.initial.y"></input>
+  </div>
+  <div class="input-group">
+    <span class="input-group-addon">Initial Z</span>
+    <input class="form-control" type="number" ng-model="newObj.initial.z"></input>
+  </div>
 
   <button class="btn btn-default form-control" ng-click="launch(newObj)">Launch</button>
 </div>

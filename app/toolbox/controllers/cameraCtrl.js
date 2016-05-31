@@ -5,11 +5,11 @@ angular.module('space.toolbox')
 
   $scope.attachId = 0;
   $scope.scaleFactor = 4;
-  $scope.objects = objects;
+  $scope.objectIds = _.map(objects, 'id');
 
-  $scope.attach = function () {
+  $scope.attach = function (toId) {
     cameraCoords = function () {
-      var tracked = objects[$scope.attachId];
+      var tracked = _.find(objects, {'id': toId});
       if(tracked == undefined) {
         cameraCoords = null;
         return {eye: [10, 10, 10], target: [0, 0, 3]};

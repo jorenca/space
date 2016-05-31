@@ -1,8 +1,11 @@
 SIMULATION
 <div ng-init="eraseStep = 0">
-  <button class="btn btn-default" ng-click="eraseStep = 1" ng-show="eraseStep == 0">Clear space</button>
-  <button class="btn btn-default" ng-click="clearSpace(); eraseStep = 0" ng-show="eraseStep == 1">Are you Sure?</button>
+  <button class="btn btn-warning" ng-click="eraseStep = 1" ng-show="eraseStep == 0">Clear space</button>
+  <button class="btn btn-danger" ng-click="clearSpace(); eraseStep = 0" ng-show="eraseStep == 1">Are you Sure?</button>
   <button class="btn btn-default" ng-click="eraseStep = 0" ng-show="eraseStep == 1">Cancel</button>
 <div>
-
-<input type="number" ng-model="time" ng-change="setTimeFlow(time)"></input>
+<br/>
+<div class="input-group">
+  <span class="input-group-addon">Time</span>
+  <input class="form-control" type="number" ng-model="time" ng-change="setTimeFlow(time)"></input>
+</div>

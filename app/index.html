@@ -25,6 +25,7 @@
   <script src="toolbox/controllers/launchCtrl.js"></script>
   <script src="toolbox/resource/bodyFactory.js"></script>
   <script src="toolbox/controllers/cameraCtrl.js"></script>
+  <script src="toolbox/controllers/objectsCtrl.js"></script>
 
   <script>
     var objects = [];
@@ -36,11 +37,7 @@
       scene = new Mecho();
       scene.onTime = animate;
 
-      //button('start', 'space', start);
-    }
-
-    function start() {
-      scene.target = [0, 0, 3]; // TODO remove me
+      scene.target = [0, 0, 10];
     }
 
     function animate() {
@@ -58,8 +55,9 @@
       });
 
       if(cameraCoords) {
-        scene.viewObject.eye = cameraCoords().eye;
-        scene.viewObject.target = cameraCoords().target;
+        var cCoord = cameraCoords();
+        scene.viewObject.eye = cCoord.eye;
+        scene.viewObject.target = cCoord.target;
       }
 
     };
@@ -67,16 +65,19 @@
   </script>
 </head>
 <body onload="init()">
-  <ul class="menu">
-    <li><a href="#/toolbox/add">Add Static</a></li>
-    <li><a href="#/toolbox/simulation">Simulation</a></li>
-    <li><a href="#/toolbox/cam">Camera</a></li>
-    <li><a href="#/toolbox/launch">Launch</a></li>
-  </ul>
+
+  <nav class="navbar navbar-light bg-faded">
+    <a class="navbar-brand" href="#">Space</a>
+    <ul class="nav navbar-nav">
+      <li class="nav-item"><a class="nav-link" href="#/toolbox/add">Add Static</a></li>
+      <li class="nav-item"><a class="nav-link" href="#/toolbox/simulation">Simulation</a></li>
+      <li class="nav-item"><a class="nav-link" href="#/toolbox/cam">Camera</a></li>
+      <li class="nav-item"><a class="nav-link" href="#/toolbox/launch">Launch</a></li>
+      <li class="nav-item"><a class="nav-link" href="#/toolbox/obj">Objects</a></li>
+    </ul>
+  </nav>
 
   <div ng-view style="position:absolute"></div>
-
-
 
 </body>
 </html>

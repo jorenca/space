@@ -84,11 +84,12 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
         },
         drop: function () {
           this.mecho.visible = false;
+          this.trace.down = false;
         }
       };
-      object.mecho.material = Mecho.RED;
-      //object.trace.parent = object.mecho;
-      object.trace.down = true;
+      object.mecho.material = {color: [Math.random(), Math.random(), Math.random()]};
+      //object.trace.parent = object.mecho; // FIXME MECHO pencils with parent dont trace!
+      object.trace.down = false;
       object.trace.visible = false; // this is the pencil itself, not the trace
       console.log('Adding ', object);
       objects.push(object);

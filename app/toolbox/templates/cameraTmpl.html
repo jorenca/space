@@ -1,27 +1,32 @@
-CAMERA<br/>
+<div class="form-group">
+  Camera pos:
+  <ul>
+    <li>{{cam.pos[0]}}</li>
+    <li>{{cam.pos[1]}}</li>
+    <li>{{cam.pos[2]}}</li>
+  </ul>
 
-Camera pos: {{cam.pos[0]}}, {{cam.pos[1]}}, {{cam.pos[2]}}<br/>
-Camera target: {{cam.target[0]}}, {{cam.target[1]}}, {{cam.target[2]}}<br/>
+  Camera target:
+  <ul>
+    <li>{{cam.target[0]}}</li>
+    <li>{{cam.target[1]}}</li>
+    <li>{{cam.target[2]}}</li>
+  </ul>
 
-<button class="btn btn-default"
-  ng-click="attach(attachId)"
-  ng-disabled="!objects[attachId]">
-  Attach to {{attachId}}
-</button>
-<button class="btn btn-default"
-  ng-click="attachId = attachId + 1"
-  ng-disabled="attachId + 1 >= objects.length">
-  +
-</button>
-<button class="btn btn-default"
-  ng-click="attachId = attachId - 1"
-  ng-disabled="attachId - 1 < 0 || !objects[attachId-1]">
-  -
-</button>
+  <button class="btn btn-default form-control" ng-click="free()">Free</button>
 
-<br/>
+  <button class="btn btn-default form-control"
+    ng-repeat="objectId in objectIds"
+    ng-click="attach(objectId)">
+    Attach to {{objectId}}
+  </button>
 
-<button class="btn btn-default" ng-click="free()">Free</button>
+  <br/>
 
-<br/>
-<input type="number" ng-model="scaleFactor"></input>
+
+  <br/>
+  <div class="input-group">
+    <span class="input-group-addon">FOV</span>
+    <input class="form-control" type="number" ng-model="scaleFactor"></input>
+  </div>
+</div>

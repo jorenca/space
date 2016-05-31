@@ -22,6 +22,11 @@ angular.module('space.toolbox', ['ngRoute'])
     templateUrl: 'toolbox/templates/cameraTmpl.html',
     controller: 'CameraCtrl'
   });
+
+  $routeProvider.when('/toolbox/obj', {
+    templateUrl: 'toolbox/templates/objectsTmpl.html',
+    controller: 'ObjectsCtrl'
+  });
 }]);
 
 angular.module('space', [
