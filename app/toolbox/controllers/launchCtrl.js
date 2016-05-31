@@ -5,7 +5,7 @@ angular.module('space.toolbox')
   $scope.newObj = {
     pos: {
       x: 0,
-      y: 0,
+      y: 10,
       z: 0
     },
     radius: 1,

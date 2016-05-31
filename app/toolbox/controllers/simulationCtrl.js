@@ -9,4 +9,9 @@ angular.module('space.toolbox')
     });
     objects = [];
   };
+
+  $scope.time = timePassed;
+  $scope.setTimeFlow = function (time) {
+    timePassed = time;
+  }
 });

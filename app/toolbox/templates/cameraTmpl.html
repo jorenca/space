@@ -3,13 +3,24 @@ CAMERA<br/>
 Camera pos: {{cam.pos[0]}}, {{cam.pos[1]}}, {{cam.pos[2]}}<br/>
 Camera target: {{cam.target[0]}}, {{cam.target[1]}}, {{cam.target[2]}}<br/>
 
-<button class="btn btn-default" ng-click="attach(attachId)">Attach to {{attachId}}</button>
-<button class="btn btn-default" ng-click="attachId = attachId + 1">+</button>
-<button class="btn btn-default" ng-click="attachId = attachId - 1">-</button>
+<button class="btn btn-default"
+  ng-click="attach(attachId)"
+  ng-disabled="!objects[attachId]">
+  Attach to {{attachId}}
+</button>
+<button class="btn btn-default"
+  ng-click="attachId = attachId + 1"
+  ng-disabled="attachId + 1 >= objects.length">
+  +
+</button>
+<button class="btn btn-default"
+  ng-click="attachId = attachId - 1"
+  ng-disabled="attachId - 1 < 0 || !objects[attachId-1]">
+  -
+</button>
 
 <br/>
 
-<button class="btn btn-default" ng-click="resetAttach()">Reset</button>
 <button class="btn btn-default" ng-click="free()">Free</button>
 
 <br/>

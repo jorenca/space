@@ -30,6 +30,8 @@
     var objects = [];
     var cameraCoords = null;
     var G = 6.674e-11;
+    var timePassed = 0.1;
+
     function init() {
       scene = new Mecho();
       scene.onTime = animate;
@@ -48,11 +50,10 @@
 
       objects = _.reject(objects, function (o) { return o.invalid() });
       _.each(objects, function (object) {
-        var timePassed = 0.1; //Mecho.dTime;
+        // var timePassed = 0.1; //Mecho.dTime;
         object.prepareMovement(timePassed, objects);
       });
       _.each(objects, function (object) {
-        var timePassed = 0.1; //Mecho.dTime;
         object.applyMovement();
       });
 

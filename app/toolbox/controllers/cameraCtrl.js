@@ -5,6 +5,7 @@ angular.module('space.toolbox')
 
   $scope.attachId = 0;
   $scope.scaleFactor = 4;
+  $scope.objects = objects;
 
   $scope.attach = function () {
     cameraCoords = function () {
@@ -22,7 +23,7 @@ angular.module('space.toolbox')
       var target = [
         tracked.mecho.center.x + tracked.nextMovement.x,
         tracked.mecho.center.y + tracked.nextMovement.y,
-        tracked.mecho.center.z + tracked.nextMovement.z+1
+        tracked.mecho.center.z + tracked.nextMovement.z
       ];
       return {
         eye: eye,

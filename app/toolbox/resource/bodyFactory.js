@@ -8,6 +8,7 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
       var object = {
         id: idc++,
         mecho: ball([model.pos.x, model.pos.z, model.pos.y /*this is correct!*/], model.radius),
+        trace: pencil([1, 1, 1], 6, 1.5, 1),
         mass: model.mass,
         nextMovement: {},
         prepareMovement: function (dTime, objects) {
@@ -22,6 +23,7 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
           this.mecho.center.x += this.nextMovement.x;
           this.mecho.center.y += this.nextMovement.y;
           this.mecho.center.z += this.nextMovement.z;
+          this.trace.center = this.mecho.center;
         },
         pos: function () {
           return {
@@ -85,6 +87,9 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
         }
       };
       object.mecho.material = Mecho.RED;
+      //object.trace.parent = object.mecho;
+      object.trace.down = true;
+      object.trace.visible = false; // this is the pencil itself, not the trace
       console.log('Adding ', object);
       objects.push(object);
     }
