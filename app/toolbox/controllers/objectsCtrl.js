@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('space.toolbox').controller('ObjectsCtrl', function ($scope, bodyFactory) {
+angular.module('space.toolbox').controller('ObjectsCtrl', function ($scope) {
   $scope.objects = objects;
 
   $scope.remove = function (objectId) {

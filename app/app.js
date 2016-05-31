@@ -27,6 +27,11 @@ angular.module('space.toolbox', ['ngRoute'])
     templateUrl: 'toolbox/templates/objectsTmpl.html',
     controller: 'ObjectsCtrl'
   });
+
+  $routeProvider.when('/toolbox/examples', {
+    templateUrl: 'toolbox/templates/examplesTmpl.html',
+    controller: 'ExamplesCtrl'
+  });
 }]);
 
 angular.module('space', [
