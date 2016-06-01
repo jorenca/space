@@ -20,6 +20,7 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
           }
         },
         applyMovement: function () {
+          if(this.merged) return;
           this.mecho.center.x += this.nextMovement.x;
           this.mecho.center.y += this.nextMovement.y;
           this.mecho.center.z += this.nextMovement.z;
@@ -47,7 +48,8 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
               return {
                 x: this.x / x,
                 y: this.y / x,
-                z: this.z / x
+                z: this.z / x,
+                distTo: this.distTo
               };
             }
           };
@@ -55,28 +57,59 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
         distTo: function (other) {
             return this.pos().distTo(other.pos());
         },
+
+        merged: false,
         attraction: function (other) {
           var dist = this.distTo(other);
-          return dist > 0e-2 ? G * this.mass * other.mass / (dist*dist) : 0;
+          return G * ((this.mass / dist) * (other.mass / dist));
         },
         vectorTo: function (other) {
           var vect = this.pos().sub(other.pos());
           return vect.div(this.distTo(other));
         },
-        lastAcceleration: model['initial'] || {x: 0, y: 0, z: 0},
+        tryMerge: function (other) {
+          if (this.merged) return 2; // already merged
+          if (this.distTo(other)*2 < this.mecho.width + other.mecho.width) {
+            if(this.mass <= other.mass) {
+              console.log('merging', this, other);
+              this.merged = true;
+              this.mecho.parent = other.mecho;
+              this.mecho.center = [Math.min(Math.random(), 0.6)-0.3, Math.min(Math.random(), 0.6)-0.3, Math.min(Math.random(), 0.6)-0.3];
+              console.log('adding own mV to other\'s mV.', this.motionVector, other.motionVector);
+              other.motionVector.x += this.motionVector.x*this.mass / other.mass;
+              other.motionVector.y += this.motionVector.y*this.mass / other.mass;
+              other.motionVector.z += this.motionVector.z*this.mass / other.mass;
+              console.log('other mV is now', other.motionVector);
+              this.motionVector = {x: 0, y: 0, z: 0};
+              other.mass += this.mass;
+              this.mass = 0;
+              return 1; // now merged
+            } else {
+              other.tryMerge(this);
+            }
+          }
+          return 0; // not merged
+        },
+        motionVector: model['initial'] || {x: 0, y: 0, z: 0},
         acceleration: function (objects) {
-          var acceleration = this.lastAcceleration;
+          if (this.merged) return this.motionVector;
+          var motionVector = this.motionVector;
           var mass = this.mass;
           _.each(objects, function (other) {
-            if(object !== other) {
+            if (object !== other && !other.merged) {
+              if(object.tryMerge(other) === 1) {
+                return object.motionVector;
+              }
               var attract = object.attraction(other);
-              var vector = object.vectorTo(other);
-              acceleration.x += attract * vector.x / mass;
-              acceleration.y += attract * vector.y / mass;
-              acceleration.z += attract * vector.z / mass;
+              var vector = object.vectorTo(other);// console.log('vector dist', vector.distTo({x: 0, y:0, z:0}))
+              if(attract != 0) {
+                motionVector.x += attract * vector.x / mass;
+                motionVector.y += attract * vector.y / mass;
+                motionVector.z += attract * vector.z / mass;
+              }
             }
           });
-          return this.lastAcceleration = acceleration;
+          return motionVector;
         },
         invalid: function () {
           var pos = this.pos();

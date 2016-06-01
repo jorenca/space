@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('space.toolbox').controller('ObjectsCtrl', function ($scope) {
-  $scope.objects = objects;
+  $scope.objects = _.filter(objects, {'merged': false});
 
   $scope.remove = function (objectId) {
     console.log('removing ID', objectId);

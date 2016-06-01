@@ -5,7 +5,7 @@ angular.module('space.toolbox')
 
   $scope.attachId = 0;
   $scope.scaleFactor = 10;
-  $scope.objectIds = _.map(objects, 'id');
+  $scope.objectIds = _(objects).filter({'merged': false}).map('id').value();
 
   $scope.attach = function (toId) {
     cameraCoords = function () {

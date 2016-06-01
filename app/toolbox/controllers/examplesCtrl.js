@@ -27,6 +27,14 @@ angular.module('space.toolbox')
         { pos: {x: 0, y: 10, z: 25}, radius: 1, mass: 10000000000, initial: {x: 1.35, y: 0, z: 0} }
       ]
     },
+    {
+      name: "Complex orbit 2",
+      objects: [
+        { pos: {x: 0, y: 10, z: 0}, radius: 1, mass: 100000000000 },
+        { pos: {x: 0, y: 10, z: 30}, radius: 1, mass: 1000000000, initial: {x: 1.5, y: 0, z: 0} },
+        { pos: {x: 0, y: 11, z: 33}, radius: 1, mass: 10000000, initial: {x: 1, y: 0, z: 0} }
+      ]
+    }
   ];
 
   $scope.runScenario = function (scenario) {
