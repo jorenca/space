@@ -11,7 +11,12 @@ angular.module('space.toolbox')
   };
 
   $scope.time = timePassed;
+  $scope.lastFlow = 0;
   $scope.setTimeFlow = function (time) {
+    $scope.lastFlow = timePassed;
     timePassed = time;
+  }
+  $scope.pause = function () {
+    timePassed ? $scope.setTimeFlow(0) : $scope.setTimeFlow($scope.lastFlow);
   }
 });

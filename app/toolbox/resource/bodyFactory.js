@@ -1,6 +1,6 @@
 'use strict'
 
-angular.module('space.toolbox').factory('bodyFactory', function () {
+angular.module('space.toolbox').factory('bodyFactory', function (Vector3) {
   var idc = 0;
   return {
     create: function (model) {
@@ -10,14 +10,9 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
         mecho: ball([model.pos.x, model.pos.z, model.pos.y /*this is correct!*/], model.radius),
         trace: pencil([1, 1, 1], 6, 1.5, 1),
         mass: model.mass,
-        nextMovement: {},
+        nextMovement: Vector3(0, 0, 0),
         prepareMovement: function (dTime, objects) {
-          var acceleration = this.acceleration(objects);
-          this.nextMovement = {
-            x: -acceleration.x * dTime,
-            y: -acceleration.y * dTime, // FIXME why is there a '-' here?
-            z: -acceleration.z * dTime
-          }
+          this.nextMovement = this.acceleration(objects).mul(-dTime);  // FIXME why is there a '-' here?
         },
         applyMovement: function () {
           if(this.merged) return;
@@ -27,45 +22,19 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
           this.trace.center = this.mecho.center;
         },
         pos: function () {
-          return {
-            x: object.mecho.center.x,
-            y: object.mecho.center.y,
-            z: object.mecho.center.z,
-            distTo: function (o) {
-              return Math.sqrt(
-                (this.x - o.x)*(this.x - o.x) +
-                (this.y - o.y)*(this.y - o.y) +
-                (this.z - o.z)*(this.z - o.z)
-              )
-            },
-            sub: function (o) {
-              this.x -= o.x;
-              this.y -= o.y;
-              this.z -= o.z;
-              return this;
-            },
-            div: function (x) {
-              return {
-                x: this.x / x,
-                y: this.y / x,
-                z: this.z / x,
-                distTo: this.distTo
-              };
-            }
-          };
+          return Vector3(object.mecho.center.x, object.mecho.center.y, object.mecho.center.z);
         },
         distTo: function (other) {
             return this.pos().distTo(other.pos());
         },
-
         merged: false,
+        mergedChildren: [],
         attraction: function (other) {
           var dist = this.distTo(other);
           return G * ((this.mass / dist) * (other.mass / dist));
         },
         vectorTo: function (other) {
-          var vect = this.pos().sub(other.pos());
-          return vect.div(this.distTo(other));
+          return this.pos().sub(other.pos()).div(this.distTo(other));
         },
         tryMerge: function (other) {
           if (this.merged) return 2; // already merged
@@ -75,41 +44,34 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
               this.merged = true;
               this.mecho.parent = other.mecho;
               this.mecho.center = [Math.min(Math.random(), 0.6)-0.3, Math.min(Math.random(), 0.6)-0.3, Math.min(Math.random(), 0.6)-0.3];
+              this.trace.down = false;
+              other.mergedChildren.push(this);
+
               console.log('adding own mV to other\'s mV.', this.motionVector, other.motionVector);
-              other.motionVector.x += this.motionVector.x*this.mass / other.mass;
-              other.motionVector.y += this.motionVector.y*this.mass / other.mass;
-              other.motionVector.z += this.motionVector.z*this.mass / other.mass;
+              other.motionVector.add(this.motionVector.mul(this.mass / other.mass));
               console.log('other mV is now', other.motionVector);
-              this.motionVector = {x: 0, y: 0, z: 0};
+              this.motionVector = Vector3(0, 0, 0);
               other.mass += this.mass;
               this.mass = 0;
               return 1; // now merged
             } else {
-              other.tryMerge(this);
+              return other.tryMerge(this);
             }
           }
           return 0; // not merged
         },
-        motionVector: model['initial'] || {x: 0, y: 0, z: 0},
+        motionVector: model['initial'] ? Vector3(model['initial'].x, model['initial'].y, model['initial'].z) : Vector3(0, 0, 0),
         acceleration: function (objects) {
-          if (this.merged) return this.motionVector;
-          var motionVector = this.motionVector;
-          var mass = this.mass;
-          _.each(objects, function (other) {
-            if (object !== other && !other.merged) {
-              if(object.tryMerge(other) === 1) {
-                return object.motionVector;
-              }
+          if (!this.merged) {
+            _.each(objects, function (other) {
+              if (object === other || object.merged || other.merged || object.tryMerge(other) === 1) return;
               var attract = object.attraction(other);
-              var vector = object.vectorTo(other);// console.log('vector dist', vector.distTo({x: 0, y:0, z:0}))
               if(attract != 0) {
-                motionVector.x += attract * vector.x / mass;
-                motionVector.y += attract * vector.y / mass;
-                motionVector.z += attract * vector.z / mass;
+                object.motionVector.add(object.vectorTo(other).mul(attract / object.mass));
               }
-            }
-          });
-          return motionVector;
+            });
+          }
+          return this.motionVector;
         },
         invalid: function () {
           var pos = this.pos();
@@ -118,6 +80,9 @@ angular.module('space.toolbox').factory('bodyFactory', function () {
         drop: function () {
           this.mecho.visible = false;
           this.trace.down = false;
+          _.each(this.mergedChildren, function(child) {
+            child.drop();
+          });
         }
       };
       object.mecho.material = {color: [Math.random(), Math.random(), Math.random()]};

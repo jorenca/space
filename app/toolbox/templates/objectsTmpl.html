@@ -3,9 +3,10 @@
 <div ng-repeat="object in objects">
   Object {{object.id}}:
   <ul>
-    <li>{{object.mecho.center[0]}}</li>
-    <li>{{object.mecho.center[1]}}</li>
-    <li>{{object.mecho.center[2]}}</li>
+    <li>X: {{object.mecho.center[0]}}</li>
+    <li>Y: {{object.mecho.center[1]}}</li>
+    <li>Z: {{object.mecho.center[2]}}</li>
+    <li>Mass: {{object.mass}}</li>
   </ul>
   <br/>
   <button class="btn btn-default" ng-click="remove(object.id)">Remove</button>

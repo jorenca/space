@@ -27,6 +27,7 @@
   <script src="toolbox/controllers/cameraCtrl.js"></script>
   <script src="toolbox/controllers/objectsCtrl.js"></script>
   <script src="toolbox/controllers/examplesCtrl.js"></script>
+  <script src="toolbox/resource/vector3.js"></script>
 
   <script>
     var objects = [];
@@ -42,14 +43,13 @@
     }
 
     function animate() {
-      _(objects).filter(function (o) { return o.invalid(); }).each(function (inv) {
-        console.log('invalid', inv.pos());
-      });
+      objects = _.reject(objects, function (o) { return o.invalid() || o.merged });
+      var time = _.clone(timePassed);
+      if(!time) return;
 
-      objects = _.reject(objects, function (o) { return o.invalid() });
       _.each(objects, function (object) {
         // var timePassed = 0.1; //Mecho.dTime;
-        object.prepareMovement(timePassed, objects);
+        object.prepareMovement(time, objects);
       });
       _.each(objects, function (object) {
         object.applyMovement();

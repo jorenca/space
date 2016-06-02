@@ -5,6 +5,8 @@ SIMULATION
   <button class="btn btn-default" ng-click="eraseStep = 0" ng-show="eraseStep == 1">Cancel</button>
 <div>
 <br/>
+<button class="btn btn-default" ng-click="pause()">{{lastFlow != 0 ? 'Unpause' : 'Pause'}}</button>
+<br/>
 <div class="input-group">
   <span class="input-group-addon">Time</span>
   <input class="form-control" type="number" ng-model="time" ng-change="setTimeFlow(time)"></input>
